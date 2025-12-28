@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Riwayat Laporan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>📋 Riwayat Laporan</h2>
+            <a href="/buat" class="btn btn-primary">+ Buat Laporan</a>
+        </div>
+        <div class="row">
+            {% for l in laporan %}
+            <div class="col-md-6 mb-3">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="fw-bold">{{ l.nama }} <small class="text-muted">({{ l.kelas }})</small></h5>
+                            <span class="badge bg-info text-dark">{{ l.status }}</span>
+                        </div>
+                        <p class="mt-2">{{ l.isi }}</p>
+                        {% if l.balasan %}
+                        <div class="alert alert-secondary mb-0">
+                            <strong>Tanggapan Guru:</strong><br>{{ l.balasan }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

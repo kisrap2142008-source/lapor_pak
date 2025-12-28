@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Lapor Pak!</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        body { background-color: #f8f9fa; }
+        .sidebar { background: #2c3e50; min-height: 100vh; color: white; }
+        .nav-link { color: rgba(255,255,255,0.7); transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { color: white; background: rgba(255,255,255,0.1); border-radius: 8px; }
+        .card { border: none; border-radius: 15px; transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; }
+        .stats-card { background: linear-gradient(45deg, #3498db, #2980b9); color: white; }
+    </style>
+
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-lg-2 sidebar p-3 d-none d-md-block">
+            <h4 class="text-center fw-bold mb-4 mt-2"><i class="bi bi-megaphone-fill me-2"></i>Lapor Pak!</h4>
+            <hr>
+            <nav class="nav flex-column">
+                <a class="nav-link active mb-2" href="/dashboard"><i class="bi bi-house-door me-2"></i> Dashboard</a>
+                {% if role == 'Siswa' %}
+                <a class="nav-link mb-2" href="/buat"><i class="bi bi-plus-circle me-2"></i> Buat Laporan</a>
+                {% endif %}
+                <a class="nav-link mt-4 text-danger" href="/logout"><i class="bi bi-box-arrow-left me-2"></i> Keluar</a>
+            </nav>
+        </div>
+
+        <div class="col-md-9 col-lg-10 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="fw-bold">Selamat Datang, {{ user }} 👋</h2>
+                    <p class="text-secondary">Anda masuk sebagai <strong>{{ role }}</strong></p>
+                </div>
+                <div class="d-md-none">
+                    <a href="/logout" class="btn btn-danger btn-sm">Keluar</a>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-4 mb-3">
+                    <div class="card stats-card shadow-sm p-3 text-center">
+                        <h6 class="text-uppercase small">Total Laporan</h6>
+                        <h2 class="fw-bold mb-0">{{ laporan|length }}</h2>
+                    </div>
+                </div>
+                <div class="col-md-8 mb-3">
+                    {% if role == 'Guru' %}
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <h6 class="fw-bold text-primary"><i class="bi bi-person-plus-fill me-2"></i>Tambah Murid Baru</h6>
+                            <form action="/tambah_siswa" method="POST" class="row g-2">
+                                <div class="col-sm-5"><input type="text" name="username" class="form-control form-control-sm" placeholder="Username" required></div>
+                                <div class="col-sm-5"><input type="password" name="password" class="form-control form-control-sm" placeholder="Password" required></div>
+                                <div class="col-sm-2"><button type="submit" class="btn btn-primary btn-sm w-100">Simpan</button></div>
+                            </form>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="card shadow-sm h-100 bg-white d-flex align-items-center justify-content-center">
+                        <a href="/buat" class="btn btn-success"><i class="bi bi-plus-lg me-2"></i>Buat Laporan Baru Sekarang</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <h5 class="fw-bold mb-3"><i class="bi bi-list-stars me-2"></i>Daftar Laporan Terkini</h5>
+            <div class="row">
+                {% for l in laporan %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="badge {% if l.status == 'Selesai' %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                                    {{ l.status }}
+                                </span>
+                                <small class="text-muted">#{{ l.id }}</small>
+                            </div>
+                            <h6 class="fw-bold mb-1">{{ l.nama }}</h6>
+                            <p class="text-muted small mb-3">{{ l.isi }}</p>
+
+                            {% if l.balasan %}
+                            <div class="p-2 rounded bg-light border-start border-3 border-info mb-3">
+                                <small class="d-block fw-bold text-info">Balasan Guru:</small>
+                                <small class="text-dark">{{ l.balasan }}</small>
+                            </div>
+                            {% endif %}
+
+                            {% if role == 'Guru' %}
+                            <button class="btn btn-outline-primary btn-sm w-100" data-bs-toggle="collapse" data-bs-target="#edit{{ l.id }}">
+                                <i class="bi bi-pencil-square me-1"></i> Balas & Update
+                            </button>
+                            <div class="collapse mt-3" id="edit{{ l.id }}">
+                                <form action="/update/{{ l.id }}" method="POST" class="p-2 border rounded">
+                                    <select name="status_baru" class="form-select form-select-sm mb-2">
+                                        <option value="Diproses">Sedang Diproses</option>
+                                        <option value="Selesai">Selesai</option>
+                                    </select>
+                                    <textarea name="balasan_guru" class="form-control form-control-sm mb-2" placeholder="Tulis tanggapan..."></textarea>
+                                    <button class="btn btn-success btn-sm w-100">Kirim Update</button>
+                                </form>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

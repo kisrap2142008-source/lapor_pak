@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Lapor Pak! Interaktif</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
+
+    <style>
+        /* CSS LANGSUNG DI SINI BIAR PASTI JALAN */
+        :root { --bg: #f0f2f5; --card: #ffffff; --text: #333; }
+        [data-theme="dark"] { --bg: #1a1a1a; --card: #2d2d2d; --text: #fff; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: 0.3s;
+        }
+
+        .kotak {
+            background: var(--card);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 350px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* TOMBOL TEMA - HARUSNYA MUNCUL DI POJOK KANAN ATAS KOTAK */
+        .mode-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #eee;
+            border: none;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        input, textarea { width: 100%; margin: 10px 0; padding: 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
+
+        button#btnKirim {
+            width: 100%;
+            padding: 12px;
+            background: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #lottie-player { width: 150px; height: 150px; margin: 0 auto; display: none; }
+    </style>
+</head>
+<body data-theme="light">
+
+    <div class="kotak">
+        <button type="button" class="mode-btn" id="tukarTema">🌙</button>
+
+        <form id="myForm" action="/buat" method="POST">
+            <h2>Buat Laporan</h2>
+            <input type="text" name="nama" placeholder="Nama" required>
+            <textarea name="isi" placeholder="Laporan" required></textarea>
+            <button type="submit" id="btnKirim">KIRIM</button>
+        </form>
+
+        <div id="lottie-player"></div>
+        <p id="txtBerhasil" style="display:none; color:green;">Berhasil dikirim!</p>
+    </div>
+
+    <audio id="sndClick" src="https://actions.google.com/sounds/v1/communication/click.ogg"></audio>
+    <audio id="sndSuccess" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+
+    <script>
+        const body = document.body;
+        const btnTema = document.getElementById('tukarTema');
+        const sndClick = document.getElementById('sndClick');
+        const sndSuccess = document.getElementById('sndSuccess');
+
+        // FUNGSI GANTI TEMA
+        btnTema.onclick = () => {
+            if (body.getAttribute('data-theme') === 'light') {
+                body.setAttribute('data-theme', 'dark');
+                btnTema.innerText = '☀️';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                btnTema.innerText = '🌙';
+            }
+        };
+
+        // FUNGSI KIRIM
+        document.getElementById('myForm').onsubmit = function(e) {
+            e.preventDefault();
+            sndClick.play(); // Bunyi Klik
+
+            this.style.display = 'none';
+            document.getElementById('lottie-player').style.display = 'block';
+
+            lottie.loadAnimation({
+                container: document.getElementById('lottie-player'),
+                renderer: 'svg',
+                loop: false,
+                autoplay: true,
+                path: '/static/Success animation.json'
+            });
+
+            setTimeout(() => {
+                sndSuccess.play(); // Bunyi Berhasil
+                document.getElementById('txtBerhasil').style.display = 'block';
+                setTimeout(() => { this.submit(); }, 1500);
+            }, 500);
+        };
+    </script>
+</body>
+</html>

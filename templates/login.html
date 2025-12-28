@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - Lapor Pak!</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        body { background: linear-gradient(135deg, #2c3e50, #3498db); height: 100vh; display: flex; align-items: center; }
+        .card { border: none; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
+        .btn-primary { background: #3498db; border: none; border-radius: 10px; padding: 10px; }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card p-4">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-megaphone-fill text-primary" style="font-size: 3rem;"></i>
+                        <h3 class="fw-bold mt-2">Lapor Pak!</h3>
+                        <p class="text-muted small">Silakan masuk ke akun Anda</p>
+                    </div>
+                    <form action="/auth" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Username</label>
+                            <input type="text" name="username" class="form-control" placeholder="admin / murid1" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold">Password</label>
+                            <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 fw-bold">Masuk</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f8fafc;
+    color: #1f2937;
+    padding-bottom: 90px;
+}
+
+/* HEADER */
+.header {
+    background: #0f2a44;
+    color: white;
+    padding: 18px;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.header p {
+    margin: 4px 0 0;
+    font-size: 13px;
+}
+
+/* CONTAINER */
+.container {
+    padding: 20px;
+}
+
+/* CARD */
+.card {
+    background: white;
+    padding: 16px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    border: 1px solid #e5e7eb;
+}
+
+/* LABEL */
+label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* INPUT */
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    background: #1e40af;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1e3a8a;
+}
+
+/* STATUS */
+.status {
+    font-weight: 600;
+    color: #065f46;
+}
+
+/* NAVBAR */
+.navbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #0f2a44;
+    display: flex;
+}
+
+.navbar a {
+    flex: 1;
+    padding: 14px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-size: 13px;
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 20px;
